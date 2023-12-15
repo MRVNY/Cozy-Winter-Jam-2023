@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "name": "CozyGameJam2023Editor Editor Win64 Development (CozyGameJam2023)",
+            "compilerPath": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+            "cStandard": "c17",
+            "cppStandard": "c++20",
+            "intelliSenseMode": "msvc-x64",
+            "compileCommands": "C:\\Users\\Damien\\Documents\\Work\\UnrealProjects\\GameDev Courses\\CozyWinterGameJam_2023\\Cozy-Winter-Jam-2023\\.vscode\\compileCommands_CozyGameJam2023.json"
+        },
+        {
+            "name": "Win32",
+            "compilerPath": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+            "cStandard": "c17",
+            "cppStandard": "c++20",
+            "intelliSenseMode": "msvc-x64",
+            "compileCommands": "C:\\Users\\Damien\\Documents\\Work\\UnrealProjects\\GameDev Courses\\CozyWinterGameJam_2023\\Cozy-Winter-Jam-2023\\.vscode\\compileCommands_Default.json"
+        }
+    ],
+    "version": 4
+}
