@@ -15,6 +15,7 @@ public:
 	// Sets default values for this pawn's properties
 	ASnowBall();
 
+	void AbsorbObject(float IncreaseModifCoef,UClass ObjectClass);
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -50,7 +51,17 @@ private:
 
 	void MoveForward(float axisValue);
 	void MoveRight(float axisValue);
+	void Grow(float IncreaseModifCoef, float IncreaseSpeedCoef);
+	void GrowTest();
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite, meta = (AllowPrivateAccess = "true"), Category = "Movement")
-	float Speed = 20000.0f;
+	float InitialSpeed = 60000.0f;
+
+	float Speed;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, meta = (AllowPrivateAccess = "true"), Category = "Movement")
+	float TestGrowModifRate = 0.5f;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, meta = (AllowPrivateAccess = "true"), Category = "Movement")
+	float TestSpeedModifRate = 0.1f;
 };
