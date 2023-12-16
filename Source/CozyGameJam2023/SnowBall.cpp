@@ -2,6 +2,8 @@
 
 
 #include "SnowBall.h"
+
+#include "AbsorbableObject.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/SphereComponent.h"
@@ -20,6 +22,7 @@ ASnowBall::ASnowBall()
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	Mesh->SetMobility(EComponentMobility::Movable);
 	Mesh->SetupAttachment(SphereComp);
+
 }
 
 // Called when the game starts or when spawned
@@ -28,6 +31,8 @@ void ASnowBall::BeginPlay()
 	Super::BeginPlay();
 
 	Speed = InitialSpeed;
+
+	AbsorbedObjectList = TArray<AAbsorbableObject*>();
 }
 
 // Called every frame
@@ -74,9 +79,29 @@ void ASnowBall::Grow(float IncreaseModifCoef, float IncreaseSpeedCoef)
 	SphereComp->SetRelativeScale3D(RelativeScale);
 }
 
-void ASnowBall::AbsorbObject(float IncreaseModifCoef,UClass ObjectClass)
+void ASnowBall::OnHitObject(float IncreaseModifCoef,AAbsorbableObject* AbsorbedObject)
 {
 	//grow object
 
 	//add absorbed object 3D model to snowball
+	UStaticMeshComponent* ObjMesh = AbsorbedObject->ObjMesh;
+
+	//disable collision
+	ObjMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	AbsorbedObjectList = TArray<AAbsorbableObject*>();
+
+	//attach to snowball
+	ObjMesh->AttachToComponent(Mesh,FAttachmentTransformRules::KeepWorldTransform);
+
+	// //move the object slightly inwards
+	// FVector RelativeLocation = ObjMesh->GetRelativeLocation();
+	// RelativeLocation=RelativeLocation*0.5f;
+	//
+	// //interpolate the object to the new position
+	// ObjMesh->SetRelativeLocation(RelativeLocation,true);
+
+	
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Snowball is absorbingabsor!"));
 }
+

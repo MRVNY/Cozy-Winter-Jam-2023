@@ -16,10 +16,10 @@ void AAbsorbableObject::BeginPlay()
 {
 	Super::BeginPlay();
 
-	Cube = FindComponentByClass<UStaticMeshComponent>();
-	//create a string var
-	FString name = Cube->GetMaterial(0)->GetName();
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, name);
+	ObjMesh = FindComponentByClass<UStaticMeshComponent>();
+	// //create a string var
+	// FString name = ObjMesh->GetMaterial(0)->GetName();
+	// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, name);
 
 
 }
@@ -34,6 +34,6 @@ void AAbsorbableObject::OnHit()
 {
 	UE_LOG(LogTemp, Warning, TEXT("I'm Object!"));
 	// log on screen
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("I'm Object!"));
+	// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("I'm Object!"));
 }
 
