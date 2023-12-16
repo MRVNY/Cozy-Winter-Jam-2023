@@ -9,18 +9,19 @@ AAbsorbableObject::AAbsorbableObject()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
-	//link with alreay created mesh
-	// Cube2 = 
-	// Cube2 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Cube2"));
-	// UStaticMesh* Cube = 
 }
 
 // Called when the game starts or when spawned
 void AAbsorbableObject::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	Cube = FindComponentByClass<UStaticMeshComponent>();
+	//create a string var
+	FString name = Cube->GetMaterial(0)->GetName();
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, name);
+
+
 }
 
 // Called every frame

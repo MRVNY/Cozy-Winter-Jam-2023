@@ -19,8 +19,8 @@ public:
 	void OnHit();
 
 private:
-	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Components")
-	class UStaticMeshComponent* Cube2;
+	// UPROPERTY(VisibleAnywhere,BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Components")
+	class UStaticMeshComponent* Cube;
 	
 
 protected:
