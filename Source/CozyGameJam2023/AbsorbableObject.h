@@ -6,6 +6,18 @@
 #include "GameFramework/Actor.h"
 #include "AbsorbableObject.generated.h"
 
+
+UENUM(BlueprintType)
+enum class ESize : uint8 
+{
+	SE_Tiny		UMETA(DisplayName="Tiny"), //glasses, soccer ball, toys, mushrooms
+	SE_Small	UMETA(DisplayName="Small"), //christmas elf, small characters, furniture
+	SE_Mid      UMETA(DisplayName="Mid"), //tall characters, small trees
+	SE_Big      UMETA(DisplayName="Big"), //cars, trees
+	SE_Huge		UMETA(DisplayName="Huge"), // big trees, small buildings
+	SE_Enormous		UMETA(DisplayName="Enormous") //big buildings
+};
+
 UCLASS()
 class COZYGAMEJAM2023_API AAbsorbableObject : public AActor
 {
@@ -25,6 +37,9 @@ public:
 	FVector SnowBallLocalUnitVector;
 
 	float AbsorbedRadius;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	ESize Size;
 
 private:
 	// UPROPERTY(VisibleAnywhere,BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Components")

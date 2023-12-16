@@ -58,7 +58,10 @@ private:
 	void MoveForward(float axisValue);
 	void MoveRight(float axisValue);
 	void Grow(float GrowModifCoef, float SpeedCoef);
+	void Grow(float ModifGrowCoef);
+	void Grow(const AAbsorbableObject* AbsorbedObject);
 	void GrowTest();
+	bool CanAbsorbObject(const AAbsorbableObject* AbsorbableObject) const;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite, meta = (AllowPrivateAccess = "true"), Category = "Movement")
 	float InitialSpeed = 60000.0f;
@@ -73,5 +76,14 @@ private:
 
 	float CurrentSphereRadius=0.0f;
 
-	FVector RndUnitVector;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, meta = (AllowPrivateAccess = "true"), Category = "AbsorbSystem")
+	float SmallAbsorbRadius;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, meta = (AllowPrivateAccess = "true"), Category = "AbsorbSystem")
+	float MidAbsorbRadius;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, meta = (AllowPrivateAccess = "true"), Category = "AbsorbSystem")
+	float BigAbsorbRadius;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, meta = (AllowPrivateAccess = "true"), Category = "AbsorbSystem")
+	float HugeAbsorbRadius;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, meta = (AllowPrivateAccess = "true"), Category = "AbsorbSystem")
+	float EnormousAbsorbRadius;
 };
