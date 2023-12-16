@@ -15,7 +15,9 @@ public:
 	// Sets default values for this pawn's properties
 	ASnowBall();
 
-	void AbsorbObject(float IncreaseModifCoef,UClass ObjectClass);
+	UFUNCTION(BlueprintCallable, Category="Object")
+	void OnHitObject(float IncreaseModifCoef, AAbsorbableObject* AbsorbedObject);
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -34,6 +36,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Components")
 	class UStaticMeshComponent* Mesh;
+
+	// Absorbing object list
+	TArray<AAbsorbableObject*> AbsorbedObjectList;
 
 	/*
 	//Root

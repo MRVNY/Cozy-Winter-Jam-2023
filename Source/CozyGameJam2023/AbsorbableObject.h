@@ -18,10 +18,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Object")
 	void OnHit();
 
+	class UStaticMeshComponent* ObjMesh;
+
 private:
 	// UPROPERTY(VisibleAnywhere,BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Components")
-	class UStaticMeshComponent* Cube;
-	
 
 protected:
 	// Called when the game starts or when spawned
