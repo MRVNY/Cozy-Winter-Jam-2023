@@ -30,6 +30,11 @@ ASnowBall::ASnowBall()
 }
 
 // Called when the game starts or when spawned
+void ASnowBall::SetSphereCollider(USphereComponent* SphereCollider)
+{
+	SphereComp = SphereCollider;
+}
+// Called when the game starts or when spawned
 void ASnowBall::BeginPlay()
 {
 	Super::BeginPlay();
@@ -39,6 +44,7 @@ void ASnowBall::BeginPlay()
 	AbsorbedObjectList = TArray<AAbsorbableObject*>();
 
 
+	//get sphere radius at init
 	FVector Origin;
 	FVector BoxExtent;
 	UKismetSystemLibrary::GetComponentBounds(Mesh,Origin,BoxExtent,CurrentSphereRadius);
@@ -49,9 +55,6 @@ void ASnowBall::BeginPlay()
 void ASnowBall::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-
-	//DrawDebugSphere(GetWorld(),Mesh->GetComponentLocation()+RndUnitVector*CurrentSphereRadius,5.0f,20,FColor::Red,false,0.1f);
 }
 
 // Called to bind functionality to input
@@ -86,7 +89,7 @@ void ASnowBall::Grow(float ModifGrowCoef)
 void ASnowBall::Grow(const AAbsorbableObject* AbsorbedObject)
 {
 
-	float GrowthFactor;
+	float GrowthFactor = 0.0f;
 
 	switch (AbsorbedObject->Size)
 	{
@@ -113,7 +116,7 @@ void ASnowBall::Grow(const AAbsorbableObject* AbsorbedObject)
 	}
 
 	UE_LOG(LogTemp, Warning, TEXT("GrowFactor =  %f"),GrowthFactor);
-	ASnowBall::Grow(GrowthFactor,-GrowthFactor/10);
+	ASnowBall::Grow(GrowthFactor,-GrowthFactor/30);
 }
 
 void ASnowBall::Grow(float ModifGrowCoef, float ModifSpeedCoef)

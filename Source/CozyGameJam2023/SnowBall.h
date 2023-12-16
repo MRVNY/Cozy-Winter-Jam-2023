@@ -6,6 +6,9 @@
 #include "GameFramework/Pawn.h"
 #include "SnowBall.generated.h"
 
+
+class USphereComponent;
+
 UCLASS()
 class COZYGAMEJAM2023_API ASnowBall : public APawn
 {
@@ -15,11 +18,11 @@ public:
 	// Sets default values for this pawn's properties
 	ASnowBall();
 
-	UFUNCTION(BlueprintCallable, Category="Object")
-	void OnHitObject(float IncreaseModifCoef,AAbsorbableObject* AbsorbedObject);
-
 	UFUNCTION(BlueprintCallable, Category="Absorption")
 	void OnOverlapAbsorbable(AAbsorbableObject* AbsorbedObject);
+
+	UFUNCTION(BlueprintCallable, Category="Components")
+	void SetSphereCollider(USphereComponent* SphereCollider);
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -33,8 +36,8 @@ public:
 
 private:
 	//collider
-	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Components")
-	class USphereComponent* SphereComp;
+	//UPROPERTY(VisibleAnywhere,BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Components")
+	USphereComponent* SphereComp;
 
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Components")
 	class UStaticMeshComponent* Mesh;
