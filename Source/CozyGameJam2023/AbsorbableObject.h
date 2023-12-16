@@ -24,6 +24,8 @@ public:
 
 	FVector SnowBallLocalUnitVector;
 
+	float AbsorbedRadius;
+
 private:
 	// UPROPERTY(VisibleAnywhere,BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Components")
 

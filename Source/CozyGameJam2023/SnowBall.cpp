@@ -56,7 +56,7 @@ void ASnowBall::Tick(float DeltaTime)
 	float SphereRadius;
 	UKismetSystemLibrary::GetComponentBounds(Mesh,Origin,BoxExtent,SphereRadius);
 
-	DrawDebugSphere(GetWorld(),Mesh->GetComponentLocation()+RndUnitVector*CurrentSphereRadius,5.0f,20,FColor::Red,false,0.1f);
+	//DrawDebugSphere(GetWorld(),Mesh->GetComponentLocation()+RndUnitVector*CurrentSphereRadius,5.0f,20,FColor::Red,false,0.1f);
 }
 
 // Called to bind functionality to input
@@ -102,7 +102,7 @@ void ASnowBall::Grow(float ModifGrowCoef, float ModifSpeedCoef)
 		UStaticMeshComponent* ObjMesh = AbsorbedObject->ObjMesh;
 		FVector LocalOffset = ObjMesh->GetComponentLocation() - Mesh->GetComponentLocation();
 		LocalOffset /= LocalOffset.Length();
-		ObjMesh->SetWorldLocation(Mesh->GetComponentLocation()+LocalOffset*CurrentSphereRadius);
+		ObjMesh->SetWorldLocation(Mesh->GetComponentLocation()+LocalOffset*AbsorbedObject->AbsorbedRadius);
 	}
 }
 
@@ -152,10 +152,11 @@ void ASnowBall::OnOverlapAbsorbable(AAbsorbableObject* AbsorbedObject)
 	// move the object slightly inwards
 
 	// //interpolate the object to the new position
-	FVector LocalOffset = ObjMesh->GetComponentLocation() - Mesh->GetComponentLocation();
-	AbsorbedObject->SnowBallLocalUnitVector = LocalOffset/LocalOffset.Length();
-	ObjMesh->SetWorldLocation(Mesh->GetComponentLocation()+AbsorbedObject->SnowBallLocalUnitVector*CurrentSphereRadius);
+	//FVector LocalOffset = ObjMesh->GetComponentLocation() - Mesh->GetComponentLocation();
+	//AbsorbedObject->SnowBallLocalUnitVector = LocalOffset/LocalOffset.Length();
+	//ObjMesh->SetWorldLocation(Mesh->GetComponentLocation()+AbsorbedObject->SnowBallLocalUnitVector*CurrentSphereRadius);
 
+	AbsorbedObject->AbsorbedRadius = CurrentSphereRadius;
 
 	AbsorbedObjectList.Add(AbsorbedObject);
 
