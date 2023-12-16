@@ -16,8 +16,10 @@ public:
 	ASnowBall();
 
 	UFUNCTION(BlueprintCallable, Category="Object")
-	void OnHitObject(float IncreaseModifCoef, AAbsorbableObject* AbsorbedObject);
-	
+	void OnHitObject(float IncreaseModifCoef,AAbsorbableObject* AbsorbedObject);
+
+	UFUNCTION(BlueprintCallable, Category="Absorption")
+	void OnOverlapAbsorbable(AAbsorbableObject* AbsorbedObject);
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -39,7 +41,6 @@ private:
 
 	// Absorbing object list
 	TArray<AAbsorbableObject*> AbsorbedObjectList;
-
 	/*
 	//Root
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
@@ -56,7 +57,7 @@ private:
 
 	void MoveForward(float axisValue);
 	void MoveRight(float axisValue);
-	void Grow(float IncreaseModifCoef, float IncreaseSpeedCoef);
+	void Grow(float GrowModifCoef, float SpeedCoef);
 	void GrowTest();
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite, meta = (AllowPrivateAccess = "true"), Category = "Movement")
@@ -69,4 +70,8 @@ private:
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite, meta = (AllowPrivateAccess = "true"), Category = "Movement")
 	float TestSpeedModifRate = 0.1f;
+
+	float CurrentSphereRadius=0.0f;
+
+	FVector RndUnitVector;
 };

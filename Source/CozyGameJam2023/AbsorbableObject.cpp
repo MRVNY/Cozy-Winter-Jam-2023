@@ -37,3 +37,4 @@ void AAbsorbableObject::OnHit()
 	// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("I'm Object!"));
 }
 
+

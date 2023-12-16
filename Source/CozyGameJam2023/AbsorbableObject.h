@@ -20,8 +20,13 @@ public:
 
 	class UStaticMeshComponent* ObjMesh;
 
+	float OnAbsorbGrowCoeff = 0.2f;
+
+	FVector SnowBallLocalUnitVector;
+
 private:
 	// UPROPERTY(VisibleAnywhere,BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Components")
+
 
 protected:
 	// Called when the game starts or when spawned

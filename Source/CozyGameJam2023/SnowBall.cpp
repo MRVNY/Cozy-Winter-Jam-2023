@@ -8,6 +8,8 @@
 #include "Camera/CameraComponent.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetSystemLibrary.h"
+#include "DrawDebugHelpers.h"
 
 // Sets default values
 ASnowBall::ASnowBall()
@@ -15,13 +17,15 @@ ASnowBall::ASnowBall()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	SphereComp = CreateDefaultSubobject<USphereComponent>(TEXT("Capsule Collider"));
+	/*
+	SphereComp = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere Collider"));
 	SphereComp->SetMobility(EComponentMobility::Movable);
 	SphereComp->SetupAttachment(RootComponent);
+	*/
 
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	Mesh->SetMobility(EComponentMobility::Movable);
-	Mesh->SetupAttachment(SphereComp);
+	Mesh->SetupAttachment(RootComponent);
 
 }
 
@@ -33,12 +37,26 @@ void ASnowBall::BeginPlay()
 	Speed = InitialSpeed;
 
 	AbsorbedObjectList = TArray<AAbsorbableObject*>();
+
+
+	FVector Origin;
+	FVector BoxExtent;
+	UKismetSystemLibrary::GetComponentBounds(Mesh,Origin,BoxExtent,CurrentSphereRadius);
+	
+	RndUnitVector = FVector::UpVector;
 }
 
 // Called every frame
 void ASnowBall::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	FVector Origin;
+	FVector BoxExtent;
+	float SphereRadius;
+	UKismetSystemLibrary::GetComponentBounds(Mesh,Origin,BoxExtent,SphereRadius);
+
+	DrawDebugSphere(GetWorld(),Mesh->GetComponentLocation()+RndUnitVector*CurrentSphereRadius,5.0f,20,FColor::Red,false,0.1f);
 }
 
 // Called to bind functionality to input
@@ -55,14 +73,14 @@ void ASnowBall::MoveForward(float axisValue)
 {
     FVector DeltaLocation = FVector::ZeroVector;
     DeltaLocation.X = axisValue*Speed;
-	SphereComp->AddForce(DeltaLocation,TEXT(""),false);
+	Mesh->AddForce(DeltaLocation,TEXT(""),false);
 }
 
 void ASnowBall::MoveRight(float axisValue)
 {
     FVector DeltaLocation = FVector::ZeroVector;
     DeltaLocation.Y = axisValue*Speed;
-	SphereComp->AddForce(DeltaLocation,TEXT(""),false);
+	Mesh->AddForce(DeltaLocation,TEXT(""),false);
 }
 
 
@@ -70,17 +88,27 @@ void ASnowBall::GrowTest()
 {
 	ASnowBall::Grow(TestGrowModifRate,TestSpeedModifRate);
 }
-void ASnowBall::Grow(float IncreaseModifCoef, float IncreaseSpeedCoef)
+void ASnowBall::Grow(float ModifGrowCoef, float ModifSpeedCoef)
 {
-	FVector RelativeScale = SphereComp->GetRelativeScale3D();
-	RelativeScale=RelativeScale*(1+IncreaseModifCoef);
+	FVector RelativeScale = Mesh->GetRelativeScale3D();
+	RelativeScale *= (1+ModifGrowCoef);
+	Mesh->SetRelativeScale3D(RelativeScale);
 
-	Speed*=(1+IncreaseSpeedCoef);
-	SphereComp->SetRelativeScale3D(RelativeScale);
+	CurrentSphereRadius*= (1+ModifGrowCoef);
+	Speed*=(1+ModifSpeedCoef);
+
+	for(AAbsorbableObject* AbsorbedObject : AbsorbedObjectList)
+	{
+		UStaticMeshComponent* ObjMesh = AbsorbedObject->ObjMesh;
+		FVector LocalOffset = ObjMesh->GetComponentLocation() - Mesh->GetComponentLocation();
+		LocalOffset /= LocalOffset.Length();
+		ObjMesh->SetWorldLocation(Mesh->GetComponentLocation()+LocalOffset*CurrentSphereRadius);
+	}
 }
 
 void ASnowBall::OnHitObject(float IncreaseModifCoef,AAbsorbableObject* AbsorbedObject)
 {
+	
 	//grow object
 
 	//add absorbed object 3D model to snowball
@@ -101,7 +129,36 @@ void ASnowBall::OnHitObject(float IncreaseModifCoef,AAbsorbableObject* AbsorbedO
 	// //interpolate the object to the new position
 	// ObjMesh->SetRelativeLocation(RelativeLocation,true);
 
-	
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Snowball is absorbingabsor!"));
 }
 
+
+
+void ASnowBall::OnOverlapAbsorbable(AAbsorbableObject* AbsorbedObject)
+{
+	//grow object
+
+	//add absorbed object 3D model to snowball
+	UStaticMeshComponent* ObjMesh = AbsorbedObject->ObjMesh;
+
+
+	//disable collision
+	ObjMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+
+	//attach to snowball
+	ObjMesh->AttachToComponent(Mesh,FAttachmentTransformRules::KeepWorldTransform);
+
+	// move the object slightly inwards
+
+	// //interpolate the object to the new position
+	FVector LocalOffset = ObjMesh->GetComponentLocation() - Mesh->GetComponentLocation();
+	AbsorbedObject->SnowBallLocalUnitVector = LocalOffset/LocalOffset.Length();
+	ObjMesh->SetWorldLocation(Mesh->GetComponentLocation()+AbsorbedObject->SnowBallLocalUnitVector*CurrentSphereRadius);
+
+
+	AbsorbedObjectList.Add(AbsorbedObject);
+
+
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Snowball is absorbingabsor!"));
+}
