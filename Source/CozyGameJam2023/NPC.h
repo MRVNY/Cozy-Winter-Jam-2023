@@ -22,6 +22,11 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	ESize Size;
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void StopNpcAnimation();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void TestMethodEvent();
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
