@@ -61,7 +61,7 @@ void ANPC::Tick(float DeltaTime)
 			// DrawDebugLine(GetWorld(), GetActorLocation(), FleeDirection, FColor::Red, false, 10.f, 0, 1.f);
 			IsFleeing = true;
 			//max walk speed
-			GetCharacterMovement()->MaxWalkSpeed = 200.f;
+			GetCharacterMovement()->MaxWalkSpeed = 150.f;
 			
 			// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, std::to_string(GetCharacterMovement()->MaxWalkSpeed).data());
 			Run();
