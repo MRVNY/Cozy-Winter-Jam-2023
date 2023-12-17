@@ -196,6 +196,11 @@ bool ASnowBall::CanAbsorbObject(ESize AbsorbableSize) const
 void ASnowBall::UpdateProgression()
 {
 	AbsorbCounter--;
+	
+	//getwidget
+	// UE::Widget* Widget = Cast<UE::Widget>(UGameplayStatics::GetPlayerController(GetWorld(),0)->GetHUD()->GetUserWidgetObject());
+
+	
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, std::to_string(AbsorbCounter).data());
 	if(AbsorbCounter<=0)
 	{
