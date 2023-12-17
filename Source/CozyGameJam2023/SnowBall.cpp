@@ -115,7 +115,6 @@ void ASnowBall::Grow(const AAbsorbableObject* AbsorbedObject)
 			break;
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT("GrowFactor =  %f"),GrowthFactor);
 	ASnowBall::Grow(GrowthFactor,-GrowthFactor/30);
 }
 
@@ -174,7 +173,6 @@ bool ASnowBall::CanAbsorbObject(const AAbsorbableObject* AbsorbableObject) const
 void ASnowBall::OnOverlapAbsorbable(AAbsorbableObject* AbsorbedObject)
 {
 	bool canAbsorb = CanAbsorbObject(AbsorbedObject);
-	UE_LOG(LogTemp, Warning, TEXT("canAbsorb = %d"),canAbsorb);
 	if(!canAbsorb)
 	{
 		return;
@@ -189,10 +187,8 @@ void ASnowBall::OnOverlapAbsorbable(AAbsorbableObject* AbsorbedObject)
 
 	float Volume = BoxExtent.X*BoxExtent.Y*BoxExtent.Z/FMath::Pow(100.f,3);
 
-	//UE_LOG(LogTemp, Warning, TEXT("ObjectVolume = %f"),SphereRadius);	
-	//Grow(Volume/10);
+
 	Grow(AbsorbedObject);
-	//UE_LOG(LogTemp, Warning, TEXT("SnowBall Volume = %f"),CurrentSphereRadius);
 
 
 	//add absorbed object 3D model to snowball
