@@ -59,10 +59,9 @@ void ANPC::Tick(float DeltaTime)
 			DrawDebugLine(GetWorld(), GetActorLocation(), FleeDirection, FColor::Red, false, 1.f, 0, 1.f);
 			IsFleeing = true;
 			//max walk speed
-			GetCharacterMovement()->MaxWalkSpeed = 200.f;
+			// GetCharacterMovement()->MaxWalkSpeed = 200.f;
 			Run();
 		}
-		
 		NPCController->MoveToLocation(FleeDirection);
 		//speed
 	}
@@ -72,7 +71,7 @@ void ANPC::Tick(float DeltaTime)
 		if(IsFleeing)
 		{
 			IsFleeing = false;
-			GetCharacterMovement()->MaxWalkSpeed = 100.f;
+			// GetCharacterMovement()->MaxWalkSpeed = 100.f;
 			Walk();
 			//go to random direction
 			RandomDirection = FMath::VRand().GetSafeNormal2D() * 5000.f + GetActorLocation();

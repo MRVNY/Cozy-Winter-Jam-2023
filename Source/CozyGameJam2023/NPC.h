@@ -8,6 +8,8 @@
 #include "GameFramework/Character.h"
 #include "NPC.generated.h"
 
+enum class ESize : uint8;;
+
 UCLASS()
 class COZYGAMEJAM2023_API ANPC : public ACharacter
 {
@@ -18,6 +20,11 @@ public:
 	ANPC();
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool IsFleeing = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	ESize Size;
+
+	float AbsorbedRadius;
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "NPC")
 	void TestFunction();
