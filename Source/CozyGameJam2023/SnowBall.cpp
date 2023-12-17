@@ -191,6 +191,7 @@ void ASnowBall::OnOverlapAbsorbable(AAbsorbableObject* AbsorbedObject)
 	{
 		return;
 	}
+
 	UStaticMeshComponent* ObjMesh = AbsorbedObject->ObjMesh;
 
 	//grow object
@@ -252,7 +253,7 @@ void ASnowBall::OnOverlapAbsorbableNPC(ANPC* AbsorbedNPC)
 	//stop navigation
 	AbsorbedNPC->GetController()->StopMovement();
 	//stop animation
-	AbsorbedNPC->StopNpcAnimation();
+	AbsorbedNPC->OnAbsorbNpcAnimation();
 
 
 	//disable collision
@@ -281,7 +282,7 @@ void ASnowBall::OnOverlapAbsorbableNPC(ANPC* AbsorbedNPC)
 	ObjMesh->AttachToComponent(Mesh,FAttachmentTransformRules::KeepWorldTransform);
 
 	AbsorbedNPC->AbsorbedRadius = CurrentSphereRadius;
-
+	AbsorbedNPC->isAbsorbed = true;
 
 	AbsorbedNpcList.Add(AbsorbedNPC);
 

@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include "AIController.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "NPC.generated.h"
@@ -16,17 +18,39 @@ class COZYGAMEJAM2023_API ANPC : public ACharacter
 public:
 	// Sets default values for this character's properties
 	ANPC();
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool IsFleeing = false;
 
-	float AbsorbedRadius;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	ESize Size;
 
-	UFUNCTION(BlueprintImplementableEvent)
-	void StopNpcAnimation();
+	float AbsorbedRadius;
+	bool isAbsorbed = false;
 
-	UFUNCTION(BlueprintImplementableEvent)
-	void TestMethodEvent();
+	UFUNCTION(BlueprintImplementableEvent, Category = "NPC")
+	void TestFunction();
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "NPC")
+	void Idle();
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "NPC")
+	void Walk();
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "NPC")
+	void Run();
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "NPC")
+	void OnAbsorbNpcAnimation();
+
+private:
+	APawn* Snowball;
+	AAIController* NPCController;
+	//animator
+	UAnimInstance* Animator;
+
+	FVector RandomDirection;
+	FVector FleeDirection;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -37,5 +61,7 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	
 
 };
