@@ -3,6 +3,10 @@
 
 #include "NPC.h"
 
+#include <string>
+
+#include "Kismet/GameplayStatics.h"
+
 // Sets default values
 ANPC::ANPC()
 {
@@ -15,17 +19,71 @@ ANPC::ANPC()
 void ANPC::BeginPlay()
 {
 	Super::BeginPlay();
-	// print on screen
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("I'm NPC!"));
+
+	Snowball = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+	NPCController = GetController<AAIController>();
+	Animator = GetMesh()->GetAnimInstance();
+
+	// Animator->
+
+	//execute funtion in blueprint class
+	TestFunction();
+
+	Walk();
 	
+	//show on screen
+
+	RandomDirection = FMath::VRand().GetSafeNormal2D() * 500.f + GetActorLocation();
+	//draw RandomDirection in scene as debug
+	DrawDebugLine(GetWorld(), GetActorLocation(), RandomDirection, FColor::Red, false, 1.f, 0, 1.f);
+	
+	// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, std::to_string(GetCharacterMovement()->MaxWalkSpeed).data());
+	
+	FleeDirection = RandomDirection;
+
 }
 
 // Called every frame
 void ANPC::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+		
+	//Check distance with the Snowball
+	float Distance = GetDistanceTo(Snowball);
+	
+	if (Distance < 500.f)
+	{
+		if(!IsFleeing)
+		{
+			FleeDirection = GetActorLocation() + (GetActorLocation() - Snowball->GetActorLocation()).GetSafeNormal() * 5000.f;
+			DrawDebugLine(GetWorld(), GetActorLocation(), FleeDirection, FColor::Red, false, 1.f, 0, 1.f);
+			IsFleeing = true;
+			//max walk speed
+			GetCharacterMovement()->MaxWalkSpeed = 200.f;
+			Run();
+		}
+		
+		NPCController->MoveToLocation(FleeDirection);
+		//speed
+	}
+
+	if (Distance >= 500.f)
+	{
+		if(IsFleeing)
+		{
+			IsFleeing = false;
+			GetCharacterMovement()->MaxWalkSpeed = 100.f;
+			Walk();
+			//go to random direction
+			RandomDirection = FMath::VRand().GetSafeNormal2D() * 5000.f + GetActorLocation();
+			DrawDebugLine(GetWorld(), GetActorLocation(), RandomDirection, FColor::Red, false, 1.f, 0, 1.f);
+		}
+		NPCController->MoveToLocation(RandomDirection);
+	}
 
 }
+
+
 
 // Called to bind functionality to input
 void ANPC::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
