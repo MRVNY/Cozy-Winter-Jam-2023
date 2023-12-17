@@ -31,6 +31,10 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="Components")
 	void SetSphereCollider(USphereComponent* SphereCollider);
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, meta = (AllowPrivateAccess = "true"), Category = "AbsorbSystem")
+	int AbsorbCounter;
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -62,8 +66,7 @@ private:
 	void Grow(ESize AbsorbableSize);
 	void GrowTest();
 	bool CanAbsorbObject(ESize AbsorbableSize) const;
-
-	int AbsorbCounter;
+	
 	void UpdateProgression();
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite, meta = (AllowPrivateAccess = "true"), Category = "Movement")
