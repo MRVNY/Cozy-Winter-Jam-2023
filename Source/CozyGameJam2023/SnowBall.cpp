@@ -206,6 +206,8 @@ void ASnowBall::UpdateProgression()
 	{
 		//end game
 		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("You win!"));
+		//open level
+		UGameplayStatics::OpenLevel(GetWorld(),TEXT("ThankYou"));
 	}
 }
 
