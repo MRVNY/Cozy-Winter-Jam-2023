@@ -13,7 +13,7 @@
 #include "GameFramework/Character.h"
 #include "NPC.h"
 #include "Components/CapsuleComponent.h"
-
+#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values
 ASnowBall::ASnowBall()
@@ -108,22 +108,22 @@ void ASnowBall::Grow(ESize AbsorbableSize)
 	switch (AbsorbableSize)
 	{
 		case ESize::SE_Tiny:
-			GrowthFactor = 0.02f;
+			GrowthFactor = TinyAbsorbGrowth;
 			break;
 		case ESize::SE_Small:
-			GrowthFactor = 0.04f;
+			GrowthFactor = SmallAbsorbGrowth;
 			break;
 		case ESize::SE_Mid:
-			GrowthFactor = 0.08f;
+			GrowthFactor = MidAbsorbGrowth;
 			break;
 		case ESize::SE_Big:
-			GrowthFactor = 0.12f;
+			GrowthFactor = BigAbsorbGrowth;
 			break;
 		case ESize::SE_Huge:
-			GrowthFactor = 0.16f;
+			GrowthFactor = HugeAbsorbGrowth;
 			break;
 		case ESize::SE_Enormous:
-			GrowthFactor = 0.24f;
+			GrowthFactor = EnormousAbsorbGrowth;
 			break;
 		default:
 			break;
@@ -211,6 +211,7 @@ void ASnowBall::OnOverlapAbsorbable(AAbsorbableObject* AbsorbedObject)
 	{
 		return;
 	}
+
 	UStaticMeshComponent* ObjMesh = AbsorbedObject->ObjMesh;
 
 	//grow object
@@ -269,24 +270,40 @@ void ASnowBall::OnOverlapAbsorbableNPC(ANPC* AbsorbedNPC)
 	Grow(NpcSize);
 
 
-	//add absorbed object 3D model to snowball
+	//// add absorbed object 3D model to snowball ////
+	//stop navigation
 	AbsorbedNPC->GetController()->StopMovement();
+	//stop animation
+	AbsorbedNPC->OnAbsorbNpcAnimation();
+
+
 	//disable collision
 	ObjMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 
-	//attach to snowball
-	ObjMesh->AttachToComponent(Mesh,FAttachmentTransformRules::KeepWorldTransform);
+
 
 	// move the object slightly inwards
 
 	// //interpolate the object to the new position
 	FVector LocalOffset = ObjMesh->GetComponentLocation() - Mesh->GetComponentLocation();
 	LocalOffset = LocalOffset/LocalOffset.Length();
-	ObjMesh->SetWorldLocation(Mesh->GetComponentLocation()+LocalOffset*CurrentSphereRadius);
+	//ObjMesh->SetWorldLocation(Mesh->GetComponentLocation()+LocalOffset*CurrentSphereRadius);
+
+
+	//rotate mesh
+	/*LocalOffset += TestAbsorbOffset;
+	FRotator Rotation = FRotator::MakeFromEuler(LocalOffset);
+	ObjMesh->SetWorldRotation(Rotation);
+	AbsorbedNPC->SetActorRotation(Rotation);*/
+
+
+
+	//attach to snowball
+	ObjMesh->AttachToComponent(Mesh,FAttachmentTransformRules::KeepWorldTransform);
 
 	AbsorbedNPC->AbsorbedRadius = CurrentSphereRadius;
-
+	AbsorbedNPC->isAbsorbed = true;
 
 	AbsorbedNpcList.Add(AbsorbedNPC);
 

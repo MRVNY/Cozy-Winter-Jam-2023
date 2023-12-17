@@ -2,9 +2,6 @@
 
 
 #include "NPC.h"
-
-#include <string>
-
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values
@@ -47,7 +44,12 @@ void ANPC::BeginPlay()
 void ANPC::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-		
+	
+	if(isAbsorbed)
+	{
+		return;
+	}
+	
 	//Check distance with the Snowball
 	float Distance = GetDistanceTo(Snowball);
 	

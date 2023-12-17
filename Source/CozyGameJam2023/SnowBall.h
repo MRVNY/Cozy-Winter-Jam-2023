@@ -86,4 +86,20 @@ private:
 	float HugeAbsorbRadius;
 	UPROPERTY(EditAnywhere,BlueprintReadWrite, meta = (AllowPrivateAccess = "true"), Category = "AbsorbSystem")
 	float EnormousAbsorbRadius;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, meta = (AllowPrivateAccess = "true"), Category = "AbsorbSystem")
+	float TinyAbsorbGrowth = 0.02f;	
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, meta = (AllowPrivateAccess = "true"), Category = "AbsorbSystem")
+	float SmallAbsorbGrowth = 0.04f;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, meta = (AllowPrivateAccess = "true"), Category = "AbsorbSystem")
+	float MidAbsorbGrowth = 0.08f;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, meta = (AllowPrivateAccess = "true"), Category = "AbsorbSystem")
+	float BigAbsorbGrowth = 0.12f;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, meta = (AllowPrivateAccess = "true"), Category = "AbsorbSystem")
+	float HugeAbsorbGrowth = 0.16f;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, meta = (AllowPrivateAccess = "true"), Category = "AbsorbSystem")
+	float EnormousAbsorbGrowth = 0.18f;
+
+	//UPROPERTY(EditAnywhere,BlueprintReadWrite, meta = (AllowPrivateAccess = "true"), Category = "AbsorbSystem")
+	//FVector TestAbsorbOffset;
 };

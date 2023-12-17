@@ -25,6 +25,7 @@ public:
 	ESize Size;
 
 	float AbsorbedRadius;
+	bool isAbsorbed = false;
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "NPC")
 	void TestFunction();
@@ -38,6 +39,9 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = "NPC")
 	void Run();
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "NPC")
+	void OnAbsorbNpcAnimation();
+
 private:
 	APawn* Snowball;
 	AAIController* NPCController;
@@ -46,7 +50,6 @@ private:
 
 	FVector RandomDirection;
 	FVector FleeDirection;
-
 
 protected:
 	// Called when the game starts or when spawned
