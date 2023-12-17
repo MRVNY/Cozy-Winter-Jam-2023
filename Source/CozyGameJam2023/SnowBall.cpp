@@ -11,6 +11,8 @@
 #include "Kismet/KismetSystemLibrary.h"
 #include "DrawDebugHelpers.h"
 #include "GameFramework/Character.h"
+#include "NPC.h"
+#include "Components/CapsuleComponent.h"
 
 
 // Sets default values
@@ -45,6 +47,7 @@ void ASnowBall::BeginPlay()
 
 	AbsorbedObjectList = TArray<AAbsorbableObject*>();
 
+	AbsorbedNpcList = TArray<ANPC*>();
 
 	//get sphere radius at init
 	FVector Origin;
@@ -138,6 +141,15 @@ void ASnowBall::Grow(float ModifGrowCoef, float ModifSpeedCoef)
 		ObjMesh->SetWorldLocation(Mesh->GetComponentLocation()+LocalOffset*AbsorbedObject->AbsorbedRadius);
 	}
 
+
+	for(ANPC* Npc : AbsorbedNpcList)
+	{
+		USkeletalMeshComponent* ObjMesh = Npc->GetMesh();
+		FVector LocalOffset = ObjMesh->GetComponentLocation() - Mesh->GetComponentLocation();
+		LocalOffset /= LocalOffset.Length();
+		ObjMesh->SetWorldLocation(Mesh->GetComponentLocation()+LocalOffset*Npc->AbsorbedRadius);
+	}
+
 	UE_LOG(LogTemp, Warning, TEXT("CurrentSphereRadius = %f"),CurrentSphereRadius);
 }
 
@@ -217,16 +229,20 @@ void ASnowBall::OnOverlapAbsorbable(AAbsorbableObject* AbsorbedObject)
 }
 
 
-void ASnowBall::OnOverlapAbsorbableNPC(ACharacter* AbsorbedNPC)
+void ASnowBall::OnOverlapAbsorbableNPC(ANPC* AbsorbedNPC)
 {
 
-	ESize NpcSize = ESize::SE_Tiny;
+	ESize NpcSize = AbsorbedNPC->Size;
 	bool canAbsorb = CanAbsorbObject(NpcSize);
 	if(!canAbsorb)
 	{
 		return;
 	}
 	USkeletalMeshComponent* ObjMesh = AbsorbedNPC->GetMesh();
+	
+	//disableCollider
+	UCapsuleComponent* NpcCollider = AbsorbedNPC->GetCapsuleComponent();
+	NpcCollider->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	//grow object
 	Grow(NpcSize);
@@ -248,10 +264,10 @@ void ASnowBall::OnOverlapAbsorbableNPC(ACharacter* AbsorbedNPC)
 	LocalOffset = LocalOffset/LocalOffset.Length();
 	ObjMesh->SetWorldLocation(Mesh->GetComponentLocation()+LocalOffset*CurrentSphereRadius);
 
-	//AbsorbedObject->AbsorbedRadius = CurrentSphereRadius;
+	AbsorbedNPC->AbsorbedRadius = CurrentSphereRadius;
 
 
-	//AbsorbedObjectList.Add(AbsorbedObject);
+	AbsorbedNpcList.Add(AbsorbedNPC);
 
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Snowball absorbed NPC!"));
 }

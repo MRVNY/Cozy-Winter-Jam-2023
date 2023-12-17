@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "NPC.generated.h"
 
+enum class ESize : uint8;;
+
 UCLASS()
 class COZYGAMEJAM2023_API ANPC : public ACharacter
 {
@@ -14,6 +16,11 @@ class COZYGAMEJAM2023_API ANPC : public ACharacter
 public:
 	// Sets default values for this character's properties
 	ANPC();
+
+	float AbsorbedRadius;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	ESize Size;
 
 protected:
 	// Called when the game starts or when spawned

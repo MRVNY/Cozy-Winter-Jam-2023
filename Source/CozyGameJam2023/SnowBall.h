@@ -8,7 +8,7 @@
 
 
 class USphereComponent;
-class ACharacter;
+class ANPC;
 enum class ESize : uint8;;
 
 UCLASS()
@@ -24,7 +24,7 @@ public:
 	void OnOverlapAbsorbable(AAbsorbableObject* AbsorbedObject);
 
 	UFUNCTION(BlueprintCallable, Category="Absorption")
-	void OnOverlapAbsorbableNPC(ACharacter* AbsorbedNPC);
+	void OnOverlapAbsorbableNPC(ANPC* AbsorbedNPC);
 
 	UFUNCTION(BlueprintCallable, Category="Components")
 	void SetSphereCollider(USphereComponent* SphereCollider);
@@ -49,19 +49,8 @@ private:
 
 	// Absorbing object list
 	TArray<AAbsorbableObject*> AbsorbedObjectList;
-	/*
-	//Root
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class USceneComponent* Root;
-
-	//Top down camera/
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class UCameraComponent* TopDownCameraComponent;
-
-	//Spring Arm positioning the camera above the character
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class USpringArmComponent* SpringArmComponent;
-	*/
+	
+	TArray<class ANPC*> AbsorbedNpcList;
 
 	void MoveForward(float axisValue);
 	void MoveRight(float axisValue);
