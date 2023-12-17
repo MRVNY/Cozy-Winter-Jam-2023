@@ -26,6 +26,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Absorption")
 	void OnOverlapAbsorbableNPC(ANPC* AbsorbedNPC);
 
+	UFUNCTION(BlueprintCallable, Category="Absorption")
+	void OnOverlapText(AAbsorbableObject* AbsorbedObject);
+
 	UFUNCTION(BlueprintCallable, Category="Components")
 	void SetSphereCollider(USphereComponent* SphereCollider);
 protected:

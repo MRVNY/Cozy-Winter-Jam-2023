@@ -13,6 +13,7 @@
 #include "GameFramework/Character.h"
 #include "NPC.h"
 #include "Components/CapsuleComponent.h"
+#include "DynamicMesh/ColliderMesh.h"
 #include "Kismet/KismetMathLibrary.h"
 
 // Sets default values
@@ -233,14 +234,7 @@ void ASnowBall::OnOverlapAbsorbable(AAbsorbableObject* AbsorbedObject)
 
 	//attach to snowball
 	ObjMesh->AttachToComponent(Mesh,FAttachmentTransformRules::KeepWorldTransform);
-
-	// move the object slightly inwards
-
-	// //interpolate the object to the new position
-	//FVector LocalOffset = ObjMesh->GetComponentLocation() - Mesh->GetComponentLocation();
-	//AbsorbedObject->SnowBallLocalUnitVector = LocalOffset/LocalOffset.Length();
-	//ObjMesh->SetWorldLocation(Mesh->GetComponentLocation()+AbsorbedObject->SnowBallLocalUnitVector*CurrentSphereRadius);
-
+	
 	AbsorbedObject->AbsorbedRadius = CurrentSphereRadius;
 
 
@@ -309,5 +303,19 @@ void ASnowBall::OnOverlapAbsorbableNPC(ANPC* AbsorbedNPC)
 
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Snowball absorbed NPC!"));
 	UpdateProgression();
+}
+
+void ASnowBall::OnOverlapText(AAbsorbableObject* AbsorbedObject)
+{
+	
+	// //disable collision
+	// AbsorbedObject->Children[0]->FindComponentByClass
+	// 	->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+
+	//attach to snowball
+	AbsorbedObject->AttachToComponent(Mesh,FAttachmentTransformRules::KeepWorldTransform);
+	
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Snowball absorbed Text!"));
 }
 
