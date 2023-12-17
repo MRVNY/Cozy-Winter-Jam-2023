@@ -8,6 +8,8 @@
 #include "GameFramework/Character.h"
 #include "NPC.generated.h"
 
+enum class ESize : uint8;;
+
 UCLASS()
 class COZYGAMEJAM2023_API ANPC : public ACharacter
 {
@@ -40,6 +42,11 @@ private:
 	FVector RandomDirection;
 	FVector FleeDirection;
 
+
+	float AbsorbedRadius;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	ESize Size;
 
 protected:
 	// Called when the game starts or when spawned
