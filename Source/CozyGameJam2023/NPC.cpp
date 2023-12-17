@@ -32,7 +32,7 @@ void ANPC::BeginPlay()
 
 	RandomDirection = FMath::VRand().GetSafeNormal2D() * 500.f + GetActorLocation();
 	//draw RandomDirection in scene as debug
-	DrawDebugLine(GetWorld(), GetActorLocation(), RandomDirection, FColor::Red, false, 1.f, 0, 1.f);
+	//DrawDebugLine(GetWorld(), GetActorLocation(), RandomDirection, FColor::Red, false, 1.f, 0, 1.f);
 	
 	// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, std::to_string(GetCharacterMovement()->MaxWalkSpeed).data());
 	
@@ -49,7 +49,7 @@ void ANPC::Tick(float DeltaTime)
 	{
 		return;
 	}
-	
+
 	//Check distance with the Snowball
 	float Distance = GetDistanceTo(Snowball);
 	
@@ -80,7 +80,7 @@ void ANPC::Tick(float DeltaTime)
 			Walk();
 			//go to random direction
 			RandomDirection = FMath::VRand().GetSafeNormal2D() * 500.f + GetActorLocation();
-			DrawDebugLine(GetWorld(), GetActorLocation(), RandomDirection, FColor::Red, false, 10.f, 0, 1.f);
+			//DrawDebugLine(GetWorld(), GetActorLocation(), RandomDirection, FColor::Red, false, 10.f, 0, 1.f);
 		}
 		NPCController->MoveToLocation(RandomDirection);
 	}
