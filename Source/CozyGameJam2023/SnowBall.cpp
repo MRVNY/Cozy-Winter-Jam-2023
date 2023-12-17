@@ -10,6 +10,8 @@
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "DrawDebugHelpers.h"
+#include "GameFramework/Character.h"
+
 
 // Sets default values
 ASnowBall::ASnowBall()
@@ -86,12 +88,12 @@ void ASnowBall::Grow(float ModifGrowCoef)
 }
 
 
-void ASnowBall::Grow(const AAbsorbableObject* AbsorbedObject)
+void ASnowBall::Grow(ESize AbsorbableSize)
 {
 
 	float GrowthFactor = 0.0f;
 
-	switch (AbsorbedObject->Size)
+	switch (AbsorbableSize)
 	{
 		case ESize::SE_Tiny:
 			GrowthFactor = 0.02f;
@@ -140,10 +142,10 @@ void ASnowBall::Grow(float ModifGrowCoef, float ModifSpeedCoef)
 }
 
 
-bool ASnowBall::CanAbsorbObject(const AAbsorbableObject* AbsorbableObject) const
+bool ASnowBall::CanAbsorbObject(ESize AbsorbableSize) const
 {
 	bool canAbsorb = false;
-	switch (AbsorbableObject->Size)
+	switch (AbsorbableSize)
 	{
 		case ESize::SE_Tiny:
 			canAbsorb = true;
@@ -172,7 +174,7 @@ bool ASnowBall::CanAbsorbObject(const AAbsorbableObject* AbsorbableObject) const
 
 void ASnowBall::OnOverlapAbsorbable(AAbsorbableObject* AbsorbedObject)
 {
-	bool canAbsorb = CanAbsorbObject(AbsorbedObject);
+	bool canAbsorb = CanAbsorbObject(AbsorbedObject->Size);
 	if(!canAbsorb)
 	{
 		return;
@@ -188,7 +190,7 @@ void ASnowBall::OnOverlapAbsorbable(AAbsorbableObject* AbsorbedObject)
 	float Volume = BoxExtent.X*BoxExtent.Y*BoxExtent.Z/FMath::Pow(100.f,3);
 
 
-	Grow(AbsorbedObject);
+	Grow(AbsorbedObject->Size);
 
 
 	//add absorbed object 3D model to snowball
@@ -212,4 +214,44 @@ void ASnowBall::OnOverlapAbsorbable(AAbsorbableObject* AbsorbedObject)
 	AbsorbedObjectList.Add(AbsorbedObject);
 
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Snowball is absorbingabsor!"));
+}
+
+
+void ASnowBall::OnOverlapAbsorbableNPC(ACharacter* AbsorbedNPC)
+{
+
+	ESize NpcSize = ESize::SE_Tiny;
+	bool canAbsorb = CanAbsorbObject(NpcSize);
+	if(!canAbsorb)
+	{
+		return;
+	}
+	USkeletalMeshComponent* ObjMesh = AbsorbedNPC->GetMesh();
+
+	//grow object
+	Grow(NpcSize);
+
+
+	//add absorbed object 3D model to snowball
+	AbsorbedNPC->GetController()->StopMovement();
+	//disable collision
+	ObjMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+
+	//attach to snowball
+	ObjMesh->AttachToComponent(Mesh,FAttachmentTransformRules::KeepWorldTransform);
+
+	// move the object slightly inwards
+
+	// //interpolate the object to the new position
+	FVector LocalOffset = ObjMesh->GetComponentLocation() - Mesh->GetComponentLocation();
+	LocalOffset = LocalOffset/LocalOffset.Length();
+	ObjMesh->SetWorldLocation(Mesh->GetComponentLocation()+LocalOffset*CurrentSphereRadius);
+
+	//AbsorbedObject->AbsorbedRadius = CurrentSphereRadius;
+
+
+	//AbsorbedObjectList.Add(AbsorbedObject);
+
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Snowball absorbed NPC!"));
 }

@@ -8,6 +8,8 @@
 
 
 class USphereComponent;
+class ACharacter;
+enum class ESize : uint8;;
 
 UCLASS()
 class COZYGAMEJAM2023_API ASnowBall : public APawn
@@ -20,6 +22,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="Absorption")
 	void OnOverlapAbsorbable(AAbsorbableObject* AbsorbedObject);
+
+	UFUNCTION(BlueprintCallable, Category="Absorption")
+	void OnOverlapAbsorbableNPC(ACharacter* AbsorbedNPC);
 
 	UFUNCTION(BlueprintCallable, Category="Components")
 	void SetSphereCollider(USphereComponent* SphereCollider);
@@ -62,9 +67,9 @@ private:
 	void MoveRight(float axisValue);
 	void Grow(float GrowModifCoef, float SpeedCoef);
 	void Grow(float ModifGrowCoef);
-	void Grow(const AAbsorbableObject* AbsorbedObject);
+	void Grow(ESize AbsorbableSize);
 	void GrowTest();
-	bool CanAbsorbObject(const AAbsorbableObject* AbsorbableObject) const;
+	bool CanAbsorbObject(ESize AbsorbableSize) const;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite, meta = (AllowPrivateAccess = "true"), Category = "Movement")
 	float InitialSpeed = 60000.0f;
