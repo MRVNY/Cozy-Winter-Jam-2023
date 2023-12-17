@@ -48,11 +48,6 @@ private:
 	FVector FleeDirection;
 
 
-	float AbsorbedRadius;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	ESize Size;
-
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

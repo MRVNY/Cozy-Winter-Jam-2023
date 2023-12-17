@@ -53,7 +53,16 @@ void ASnowBall::BeginPlay()
 	FVector Origin;
 	FVector BoxExtent;
 	UKismetSystemLibrary::GetComponentBounds(Mesh,Origin,BoxExtent,CurrentSphereRadius);
-	
+
+	//count all the object of the class AbsorbableObject
+	TArray<AActor*> FoundActors;
+	TArray<AActor*> FoundNpcs;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(),AAbsorbableObject::StaticClass(),FoundActors);
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(),ANPC::StaticClass(),FoundNpcs);
+	AbsorbCounter = FoundActors.Num();
+	AbsorbCounter += FoundNpcs.Num();
+
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, std::to_string(AbsorbCounter).data());
 }
 
 // Called every frame
@@ -183,6 +192,17 @@ bool ASnowBall::CanAbsorbObject(ESize AbsorbableSize) const
 	return canAbsorb;
 }
 
+void ASnowBall::UpdateProgression()
+{
+	AbsorbCounter--;
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, std::to_string(AbsorbCounter).data());
+	if(AbsorbCounter<=0)
+	{
+		//end game
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("You win!"));
+	}
+}
+
 
 void ASnowBall::OnOverlapAbsorbable(AAbsorbableObject* AbsorbedObject)
 {
@@ -225,7 +245,8 @@ void ASnowBall::OnOverlapAbsorbable(AAbsorbableObject* AbsorbedObject)
 
 	AbsorbedObjectList.Add(AbsorbedObject);
 
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Snowball is absorbingabsor!"));
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Snowball absorbed object!"));
+	UpdateProgression();
 }
 
 
@@ -270,4 +291,6 @@ void ASnowBall::OnOverlapAbsorbableNPC(ANPC* AbsorbedNPC)
 	AbsorbedNpcList.Add(AbsorbedNPC);
 
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Snowball absorbed NPC!"));
+	UpdateProgression();
 }
+

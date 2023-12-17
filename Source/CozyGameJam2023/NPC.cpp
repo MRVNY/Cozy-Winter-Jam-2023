@@ -55,13 +55,16 @@ void ANPC::Tick(float DeltaTime)
 	{
 		if(!IsFleeing)
 		{
-			FleeDirection = GetActorLocation() + (GetActorLocation() - Snowball->GetActorLocation()).GetSafeNormal() * 5000.f;
-			DrawDebugLine(GetWorld(), GetActorLocation(), FleeDirection, FColor::Red, false, 1.f, 0, 1.f);
+			// FleeDirection = GetActorLocation() + (GetActorLocation() - Snowball->GetActorLocation()).GetSafeNormal() * 500.f;
+			// DrawDebugLine(GetWorld(), GetActorLocation(), FleeDirection, FColor::Red, false, 10.f, 0, 1.f);
 			IsFleeing = true;
 			//max walk speed
-			// GetCharacterMovement()->MaxWalkSpeed = 200.f;
+			GetCharacterMovement()->MaxWalkSpeed = 200.f;
+			
+			// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, std::to_string(GetCharacterMovement()->MaxWalkSpeed).data());
 			Run();
 		}
+		FleeDirection = GetActorLocation() + (GetActorLocation() - Snowball->GetActorLocation()).GetSafeNormal() * 500.f;
 		NPCController->MoveToLocation(FleeDirection);
 		//speed
 	}
@@ -71,11 +74,11 @@ void ANPC::Tick(float DeltaTime)
 		if(IsFleeing)
 		{
 			IsFleeing = false;
-			// GetCharacterMovement()->MaxWalkSpeed = 100.f;
+			GetCharacterMovement()->MaxWalkSpeed = 100.f;
 			Walk();
 			//go to random direction
-			RandomDirection = FMath::VRand().GetSafeNormal2D() * 5000.f + GetActorLocation();
-			DrawDebugLine(GetWorld(), GetActorLocation(), RandomDirection, FColor::Red, false, 1.f, 0, 1.f);
+			RandomDirection = FMath::VRand().GetSafeNormal2D() * 500.f + GetActorLocation();
+			DrawDebugLine(GetWorld(), GetActorLocation(), RandomDirection, FColor::Red, false, 10.f, 0, 1.f);
 		}
 		NPCController->MoveToLocation(RandomDirection);
 	}

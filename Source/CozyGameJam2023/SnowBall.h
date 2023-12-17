@@ -60,6 +60,9 @@ private:
 	void GrowTest();
 	bool CanAbsorbObject(ESize AbsorbableSize) const;
 
+	int AbsorbCounter;
+	void UpdateProgression();
+
 	UPROPERTY(EditAnywhere,BlueprintReadWrite, meta = (AllowPrivateAccess = "true"), Category = "Movement")
 	float InitialSpeed = 60000.0f;
 
