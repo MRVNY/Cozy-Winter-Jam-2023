@@ -63,7 +63,7 @@ void ASnowBall::BeginPlay()
 	AbsorbCounter = FoundActors.Num();
 	AbsorbCounter += FoundNpcs.Num();
 
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, std::to_string(AbsorbCounter).data());
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, std::to_string(AbsorbCounter).data());
 }
 
 // Called every frame
@@ -201,11 +201,11 @@ void ASnowBall::UpdateProgression()
 	// UE::Widget* Widget = Cast<UE::Widget>(UGameplayStatics::GetPlayerController(GetWorld(),0)->GetHUD()->GetUserWidgetObject());
 	//GetWidgetFromName
 	
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, std::to_string(AbsorbCounter).data());
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, std::to_string(AbsorbCounter).data());
 	if(AbsorbCounter<=0)
 	{
 		//end game
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("You win!"));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("You win!"));
 	}
 }
 
@@ -245,7 +245,7 @@ void ASnowBall::OnOverlapAbsorbable(AAbsorbableObject* AbsorbedObject)
 
 	AbsorbedObjectList.Add(AbsorbedObject);
 
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Snowball absorbed object!"));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Snowball absorbed object!"));
 	UpdateProgression();
 }
 
@@ -306,7 +306,7 @@ void ASnowBall::OnOverlapAbsorbableNPC(ANPC* AbsorbedNPC)
 
 	AbsorbedNpcList.Add(AbsorbedNPC);
 
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Snowball absorbed NPC!"));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Snowball absorbed NPC!"));
 	UpdateProgression();
 }
 
@@ -321,6 +321,6 @@ void ASnowBall::OnOverlapText(AAbsorbableObject* AbsorbedObject)
 	//attach to snowball
 	AbsorbedObject->AttachToComponent(Mesh,FAttachmentTransformRules::KeepWorldTransform);
 	
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Snowball absorbed Text!"));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Snowball absorbed Text!"));
 }
 
