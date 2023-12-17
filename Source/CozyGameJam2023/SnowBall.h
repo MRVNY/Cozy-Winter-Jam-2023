@@ -6,6 +6,9 @@
 #include "GameFramework/Pawn.h"
 #include "SnowBall.generated.h"
 
+
+class USphereComponent;
+
 UCLASS()
 class COZYGAMEJAM2023_API ASnowBall : public APawn
 {
@@ -15,11 +18,11 @@ public:
 	// Sets default values for this pawn's properties
 	ASnowBall();
 
-	UFUNCTION(BlueprintCallable, Category="Object")
-	void OnHitObject(float IncreaseModifCoef,AAbsorbableObject* AbsorbedObject);
-
 	UFUNCTION(BlueprintCallable, Category="Absorption")
 	void OnOverlapAbsorbable(AAbsorbableObject* AbsorbedObject);
+
+	UFUNCTION(BlueprintCallable, Category="Components")
+	void SetSphereCollider(USphereComponent* SphereCollider);
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -33,8 +36,8 @@ public:
 
 private:
 	//collider
-	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Components")
-	class USphereComponent* SphereComp;
+	//UPROPERTY(VisibleAnywhere,BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Components")
+	USphereComponent* SphereComp;
 
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Components")
 	class UStaticMeshComponent* Mesh;
@@ -58,7 +61,10 @@ private:
 	void MoveForward(float axisValue);
 	void MoveRight(float axisValue);
 	void Grow(float GrowModifCoef, float SpeedCoef);
+	void Grow(float ModifGrowCoef);
+	void Grow(const AAbsorbableObject* AbsorbedObject);
 	void GrowTest();
+	bool CanAbsorbObject(const AAbsorbableObject* AbsorbableObject) const;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite, meta = (AllowPrivateAccess = "true"), Category = "Movement")
 	float InitialSpeed = 60000.0f;
@@ -73,5 +79,14 @@ private:
 
 	float CurrentSphereRadius=0.0f;
 
-	FVector RndUnitVector;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, meta = (AllowPrivateAccess = "true"), Category = "AbsorbSystem")
+	float SmallAbsorbRadius;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, meta = (AllowPrivateAccess = "true"), Category = "AbsorbSystem")
+	float MidAbsorbRadius;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, meta = (AllowPrivateAccess = "true"), Category = "AbsorbSystem")
+	float BigAbsorbRadius;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, meta = (AllowPrivateAccess = "true"), Category = "AbsorbSystem")
+	float HugeAbsorbRadius;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, meta = (AllowPrivateAccess = "true"), Category = "AbsorbSystem")
+	float EnormousAbsorbRadius;
 };
