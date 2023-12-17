@@ -21,6 +21,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool IsFleeing = false;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	ESize Size;
+
+	float AbsorbedRadius;
+
 	UFUNCTION(BlueprintImplementableEvent, Category = "NPC")
 	void TestFunction();
 
