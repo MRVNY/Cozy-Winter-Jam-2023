@@ -88,6 +88,22 @@
 		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
 	},
 	{
+		"file": "C:\\Users\\Damien\\Documents\\Work\\UnrealProjects\\GameDev Courses\\CozyWinterGameJam_2023\\Cozy-Winter-Jam-2023\\Source\\CozyGameJam2023\\NPC.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\Damien\\Documents\\Work\\UnrealProjects\\GameDev Courses\\CozyWinterGameJam_2023\\Cozy-Winter-Jam-2023\\.vscode\\compileCommands_CozyGameJam2023\\CozyGameJam2023.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Damien\\Documents\\Work\\UnrealProjects\\GameDev Courses\\CozyWinterGameJam_2023\\Cozy-Winter-Jam-2023\\Source\\CozyGameJam2023\\NPC.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\Damien\\Documents\\Work\\UnrealProjects\\GameDev Courses\\CozyWinterGameJam_2023\\Cozy-Winter-Jam-2023\\.vscode\\compileCommands_CozyGameJam2023\\CozyGameJam2023.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
+	},
+	{
 		"file": "C:\\Users\\Damien\\Documents\\Work\\UnrealProjects\\GameDev Courses\\CozyWinterGameJam_2023\\Cozy-Winter-Jam-2023\\Source\\CozyGameJam2023\\SnowBall.cpp",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
