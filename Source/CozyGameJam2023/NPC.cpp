@@ -15,6 +15,8 @@ ANPC::ANPC()
 void ANPC::BeginPlay()
 {
 	Super::BeginPlay();
+	// print on screen
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("I'm NPC!"));
 	
 }
 
