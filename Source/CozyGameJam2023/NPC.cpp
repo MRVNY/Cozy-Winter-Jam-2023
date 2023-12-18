@@ -3,6 +3,7 @@
 
 #include "NPC.h"
 #include "Kismet/GameplayStatics.h"
+#include "Navigation/PathFollowingComponent.h"
 
 // Sets default values
 ANPC::ANPC()
@@ -20,8 +21,6 @@ void ANPC::BeginPlay()
 	Snowball = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	NPCController = GetController<AAIController>();
 	Animator = GetMesh()->GetAnimInstance();
-
-	// Animator->
 
 	//execute funtion in blueprint class
 	TestFunction();
@@ -61,7 +60,7 @@ void ANPC::Tick(float DeltaTime)
 			// DrawDebugLine(GetWorld(), GetActorLocation(), FleeDirection, FColor::Red, false, 10.f, 0, 1.f);
 			IsFleeing = true;
 			//max walk speed
-			GetCharacterMovement()->MaxWalkSpeed = 200.f;
+			GetCharacterMovement()->MaxWalkSpeed = 150.f;
 			
 			// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, std::to_string(GetCharacterMovement()->MaxWalkSpeed).data());
 			Run();
@@ -85,9 +84,22 @@ void ANPC::Tick(float DeltaTime)
 		NPCController->MoveToLocation(RandomDirection);
 	}
 
+	auto MoveStatus = NPCController->GetMoveStatus();
+	if(MoveStatus != EPathFollowingStatus::Moving)
+	{
+		int Cpt = 1;
+		auto Result = NPCController->MoveToLocation(RandomDirection);
+		while (Cpt<10 && Result != EPathFollowingResult::Success);
+		{
+			RandomDirection = FMath::VRand().GetSafeNormal2D() * 500.f + GetActorLocation();
+			Result = NPCController->MoveToLocation(RandomDirection);
+			Cpt++;
+		}
+		GetCharacterMovement()->MaxWalkSpeed = 100.f;
+		Walk();
+		//UE_LOG(LogTemp, Warning, TEXT("Getting new direction because npc wasnt moving"));
+	}
 }
-
-
 
 // Called to bind functionality to input
 void ANPC::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
